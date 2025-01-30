@@ -1,14 +1,12 @@
-import { StrictMode } from "react";
+import { lazy, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
-import App from "./App.tsx";
+import SuspenseLoader from "./features/shared/components/SuspenseLoader.tsx";
 import "./index.css";
-import store from "./redux/store.ts";
+
+const App = lazy(() => import("./App.tsx"));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <SuspenseLoader children={<App />} />
   </StrictMode>
 );

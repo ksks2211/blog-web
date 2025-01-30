@@ -1,19 +1,20 @@
-import { lazy } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import FallbackComponent from "./components/FallbackComponent";
-import SuspenseLoader from "./components/SuspenseLoader";
-import { ModalProvider } from "./contexts/ModalContext";
-
-const AppRoutes = lazy(() => import("./routes/AppRoutes"));
+import FallbackComponent from "./features/shared/components/FallbackComponent";
+import { ModalProvider } from "./features/shared/contexts/ModalContext";
+import AppRoutes from "./routes/AppRoutes";
+import store from "./store/store";
 
 function App() {
   return (
     <ErrorBoundary FallbackComponent={FallbackComponent}>
       <BrowserRouter>
-        <ModalProvider>
-          <SuspenseLoader children={<AppRoutes />} />
-        </ModalProvider>
+        <Provider store={store}>
+          <ModalProvider>
+            <AppRoutes />
+          </ModalProvider>
+        </Provider>
       </BrowserRouter>
     </ErrorBoundary>
   );

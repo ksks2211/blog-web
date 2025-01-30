@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useModalAction, useModalState } from "../hooks/contexts/useModal";
+import { useModalAction, useModalState } from "../hooks/useModal";
 
 const TestComponent = () => {
   const [searchParams] = useSearchParams();
