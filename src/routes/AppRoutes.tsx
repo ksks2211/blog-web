@@ -1,18 +1,46 @@
+import { memo } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import LoginPage from "../features/auth/LoginPage.tsx";
-import SignupPage from "../features/auth/SignupPage.tsx";
-import { useIsLoggedIn } from "../features/auth/useAuth.ts";
+import LoginPage from "../features/auth/pages/LoginPage.tsx";
+import SignupPage from "../features/auth/pages/SignupPage.tsx";
+import {
+  useChangeNickname,
+  useIsLoggedIn,
+  useLogout,
+  useProfile,
+} from "../features/auth/useAuth.ts";
 import {
   useListenScrollY,
   useScrollTopReset,
 } from "../features/scroll/useScroll.ts";
+import LoadingPage from "../features/shared/pages/LoadingPage.tsx";
+import QueryErrorPage from "../features/shared/pages/QueryErrorPage.tsx";
 import PrivateRoutes from "./PrivateRoutes.tsx";
 
-const AppRoutes = () => {
+const AppRoutesGuard = () => {
+  const { isLoggedIn } = useIsLoggedIn();
+  const { changeNickname } = useChangeNickname();
+  const { logout } = useLogout();
+  const { data: resBody, isLoading, isError } = useProfile(isLoggedIn);
+
+  if (!isLoggedIn) return <AppRoutes isLoggedIn={isLoggedIn} />;
+  if (isLoading) return <LoadingPage />;
+  if (isError) return <QueryErrorPage />;
+  if (resBody === undefined) return <QueryErrorPage />;
+
+  // Client-State(login) Server-State(logout) => Update Client State(both logout)
+  if (isLoggedIn && !resBody.data.loggedIn) {
+    logout();
+  } else {
+    const nickname = resBody.data.nickname;
+    changeNickname(nickname);
+  }
+
+  return <AppRoutes isLoggedIn={isLoggedIn} />;
+};
+
+const AppRoutes = memo(({ isLoggedIn }: { isLoggedIn: boolean }) => {
   useListenScrollY();
   useScrollTopReset();
-
-  const { isLoggedIn } = useIsLoggedIn();
 
   return (
     <Routes>
@@ -32,6 +60,6 @@ const AppRoutes = () => {
       />
     </Routes>
   );
-};
+});
 
-export default AppRoutes;
+export default AppRoutesGuard;

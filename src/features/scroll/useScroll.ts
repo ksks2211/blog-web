@@ -3,10 +3,11 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useLockBodyScroll, useScrollbarWidth } from "react-use";
-import { AppDispatch, RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../app/store";
 import { setScrollY } from "./scrollStateSlice";
+import { isScrollable } from "./scrollUtils";
 
-const SCROLL_TO_OPTIONS = {
+const scrollToOptions = {
   top: 0,
   behavior: "instant",
 } as const;
@@ -16,7 +17,7 @@ export const useScrollTopReset = () => {
   useEffect(() => {
     // Disable the browser's default scroll restoration on back/forward navigation
     window.history.scrollRestoration = "manual";
-    window.scrollTo(SCROLL_TO_OPTIONS);
+    window.scrollTo(scrollToOptions);
 
     // Re-enable scroll restoration when the component is unmounted
     return () => {
@@ -54,8 +55,7 @@ export const useEnhancedLockBodyScroll = (lock: boolean) => {
 
   // Add right margin for scroll width
   useEffect(() => {
-    const isScrollable = document.body.scrollHeight > window.innerHeight;
-    if (!isScrollable) return;
+    if (!isScrollable()) return;
     if (lock) {
       const { marginRight } = window.getComputedStyle(document.body);
       document.body.style.marginRight = `${scrollbarWidth}px`;

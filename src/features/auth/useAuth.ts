@@ -1,11 +1,16 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { setIsLoggedIn } from "./authStateSlice";
+import { AppDispatch, RootState } from "../../app/store";
+import { LoginResponse, LogoutResponse, ProfileResponse } from "./auth.types";
+import { getProfile, postLogin, postLogout } from "./authService";
+import { setIsLoggedIn, setNickname } from "./authStateSlice";
 import {
   isValidToken,
   removeTokenFromBrowser,
   setTokenToBrowser,
 } from "./authTokenService";
+import { LoginFormData } from "./components/LoginForm";
 
 export const useIsLoggedIn = () => {
   const isLoggedIn = useSelector(
@@ -14,9 +19,25 @@ export const useIsLoggedIn = () => {
   return { isLoggedIn };
 };
 
-export const useCheckLoginState = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  dispatch(setIsLoggedIn(isValidToken()));
+export const useUserInfo = () => {
+  const nickname = useSelector((state: RootState) => state.authState.nickname);
+  return { nickname };
+};
+
+// Check login state regularly
+export const useMonitorLoginState = (ms = 5000) => {
+  const { logout } = useLogout();
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const valid = isValidToken();
+      if (!valid) {
+        logout();
+      }
+    }, ms);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [logout, ms]);
 };
 
 export const useLogin = () => {
@@ -33,11 +54,64 @@ export const useLogin = () => {
 
 export const useLogout = () => {
   const dispatch = useDispatch<AppDispatch>();
-
   const logout = () => {
     dispatch(setIsLoggedIn(false));
     removeTokenFromBrowser();
   };
 
   return { logout };
+};
+
+export const useChangeNickname = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const changeNickname = (nickname: string) => {
+    dispatch(setNickname(nickname));
+  };
+  return { changeNickname };
+};
+
+// React-Query Mutation
+export const useLoginMutation = ({
+  setLoginErrorMessage,
+}: {
+  setLoginErrorMessage: (msg: string) => void;
+}) => {
+  const { login } = useLogin();
+  const { logout } = useLogout();
+
+  const mutation = useMutation<LoginResponse, Error, LoginFormData>({
+    mutationFn: postLogin,
+    onSuccess: (res) => {
+      const { token } = res.data;
+      login(token);
+    },
+    onError: (error) => {
+      setLoginErrorMessage(error.message);
+      logout();
+    },
+  });
+
+  return { mutation };
+};
+
+export const useLogoutMutation = () => {
+  const { logout } = useLogout();
+
+  const mutation = useMutation<LogoutResponse, Error>({
+    mutationFn: postLogout,
+    onSuccess: logout,
+    onError: logout,
+  });
+
+  return { mutation };
+};
+
+// React-Query Query
+export const useProfile = (enabled: boolean) => {
+  return useQuery<ProfileResponse>({
+    queryKey: ["profile"],
+    queryFn: getProfile,
+    staleTime: Infinity,
+    enabled,
+  });
 };

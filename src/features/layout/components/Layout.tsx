@@ -34,7 +34,7 @@ const Layout: React.FC = () => {
       {!isLargeScreen && (
         <Overlay
           active={isDrawerOpen}
-          onClick={toggleDrawer}
+          onClick={isDrawerOpen ? toggleDrawer : undefined}
           className="cursor-pointer"
         />
       )}
@@ -48,7 +48,6 @@ const Layout: React.FC = () => {
 const L1Right: React.FC = () => {
   const { isSmallMobile, isLargeMobile, isTablet, isDesktop, isLargeScreen } =
     useDeviceType();
-  const { toggleDrawer } = useManageDrawer();
 
   return (
     <div
@@ -59,7 +58,6 @@ const L1Right: React.FC = () => {
         "bg-green-500": isDesktop,
         "bg-blue-500": isLargeScreen,
       })}
-      onClick={toggleDrawer}
     >
       <Header />
       <L2Bottom />

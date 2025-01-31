@@ -3,10 +3,12 @@ import { isValidToken } from "./authTokenService";
 
 interface AuthState {
   isLoggedIn: boolean;
+  nickname: string;
 }
 
 export const initialState: AuthState = {
   isLoggedIn: isValidToken(),
+  nickname: "Anonymous",
 };
 
 const authStateSlice = createSlice({
@@ -16,9 +18,12 @@ const authStateSlice = createSlice({
     setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
       state.isLoggedIn = action.payload;
     },
+    setNickname: (state, action: PayloadAction<string>) => {
+      state.nickname = action.payload;
+    },
   },
 });
 
-export const { setIsLoggedIn } = authStateSlice.actions;
+export const { setIsLoggedIn, setNickname } = authStateSlice.actions;
 
 export default authStateSlice.reducer;

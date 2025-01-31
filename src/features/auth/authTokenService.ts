@@ -26,6 +26,9 @@ export const isValidToken = () => {
         removeTokenFromBrowser();
         return false;
       }
+
+      // Valid Token
+      return true;
     } catch (error) {
       console.error(error);
       removeTokenFromBrowser();

@@ -1,11 +1,19 @@
 import apiClient from "./client";
 
-export async function getRequest<T>(endpoint: string) {
+export async function getRequest<ResBody>(endpoint: string) {
   const { data } = await apiClient.get(endpoint);
-  return data as T;
+  return data as ResBody;
 }
 
-export async function deleteRequest<T>(endpoint: string) {
+export async function deleteRequest<ResBody>(endpoint: string) {
   const { data } = await apiClient.delete(endpoint);
-  return data as T;
+  return data as ResBody;
+}
+
+export async function postRequest<ReqBody = void, ResBody = void>(
+  endpoint: string,
+  reqBody?: ReqBody
+) {
+  const { data } = await apiClient.post(endpoint, reqBody);
+  return data as ResBody;
 }

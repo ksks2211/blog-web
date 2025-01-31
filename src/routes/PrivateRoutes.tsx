@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { useMonitorLoginState } from "../features/auth/useAuth";
 import Layout from "../features/layout/components/Layout";
 import SuspenseLoader from "../features/shared/components/SuspenseLoader";
 import TestComponent from "../features/shared/components/TestComponent";
@@ -7,7 +8,7 @@ import HomePage from "../features/shared/pages/HomePage";
 import NotFoundPage from "../features/shared/pages/NotFoundPage";
 
 const PrivateRoutes = () => {
-  // token 검증하기 =>
+  useMonitorLoginState();
 
   return (
     <Routes>
