@@ -59,6 +59,7 @@ export const useEnhancedLockBodyScroll = (lock: boolean) => {
     if (lock) {
       const { marginRight } = window.getComputedStyle(document.body);
       document.body.style.marginRight = `${scrollbarWidth}px`;
+
       return () => {
         document.body.style.marginRight = marginRight;
       };

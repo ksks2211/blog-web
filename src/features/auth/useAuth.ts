@@ -25,7 +25,7 @@ export const useUserInfo = () => {
 };
 
 // Check login state regularly
-export const useMonitorLoginState = (ms = 5000) => {
+export const useMonitorLoginState = (min = 5) => {
   const { logout } = useLogout();
   useEffect(() => {
     const timer = setInterval(() => {
@@ -33,13 +33,14 @@ export const useMonitorLoginState = (ms = 5000) => {
       if (!valid) {
         logout();
       }
-    }, ms);
+    }, min * 60 * 1000);
     return () => {
       clearInterval(timer);
     };
-  }, [logout, ms]);
+  }, [logout, min]);
 };
 
+// Update login-state(client state = login)
 export const useLogin = () => {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -52,6 +53,7 @@ export const useLogin = () => {
   return { login };
 };
 
+// Update login-state(client state = logout)
 export const useLogout = () => {
   const dispatch = useDispatch<AppDispatch>();
   const logout = () => {

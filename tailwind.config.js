@@ -1,3 +1,7 @@
+import daisyui from "daisyui"
+import typography from "@tailwindcss/typography";
+
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -23,15 +27,25 @@ export default {
             opacity: '0',
           },
         },
+        
       },
 
       animation: {
         'fade-in': 'fade-in 0.5s ease-in-out forwards',
         'fade-out': 'fade-out 0.5s ease-in-out forwards',
+        'rotate' : 'spin 5s linear infinite'
       },
+
+      fontFamily: {
+        "oswald" : ['Oswald', 'serif']
+      }
 
     },
   },
-  plugins: [],
+  plugins: [
+
+    typography,
+    daisyui   
+  ],
 }
 

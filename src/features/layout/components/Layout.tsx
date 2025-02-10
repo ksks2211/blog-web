@@ -46,19 +46,8 @@ const Layout: React.FC = () => {
 
 //  L1Right : Header(top) + L2Bottom
 const L1Right: React.FC = () => {
-  const { isSmallMobile, isLargeMobile, isTablet, isDesktop, isLargeScreen } =
-    useDeviceType();
-
   return (
-    <div
-      className={clsx("w-full h-full min-h-screen flex-row relative", {
-        "bg-red-500": isSmallMobile,
-        "bg-orange-500": isLargeMobile,
-        "bg-yellow-500": isTablet,
-        "bg-green-500": isDesktop,
-        "bg-blue-500": isLargeScreen,
-      })}
-    >
+    <div className={clsx("w-full h-full min-h-screen flex-row relative")}>
       <Header />
       <L2Bottom />
     </div>

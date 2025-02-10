@@ -17,3 +17,10 @@
 - [ ] build
 - [ ] docker 
 
+
+### build image
+- docker build -t blog-web:latest ./
+
+### run
+- docker run -d -p 80:80 --name blog-web blog-web
+

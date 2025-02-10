@@ -1,7 +1,6 @@
 import { memo } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "../features/auth/pages/LoginPage.tsx";
-import SignupPage from "../features/auth/pages/SignupPage.tsx";
 import {
   useChangeNickname,
   useIsLoggedIn,
@@ -15,6 +14,7 @@ import {
 import LoadingPage from "../features/shared/pages/LoadingPage.tsx";
 import QueryErrorPage from "../features/shared/pages/QueryErrorPage.tsx";
 import PrivateRoutes from "./PrivateRoutes.tsx";
+import TestPage from "./TestPage.tsx";
 
 const AppRoutesGuard = () => {
   const { isLoggedIn } = useIsLoggedIn();
@@ -47,12 +47,14 @@ const AppRoutes = memo(({ isLoggedIn }: { isLoggedIn: boolean }) => {
       <Route
         path="/login"
         element={!isLoggedIn ? <LoginPage /> : <Navigate to="/" />}
-      />
+      ></Route>
 
       <Route
         path="/signup"
-        element={!isLoggedIn ? <SignupPage /> : <Navigate to="/" />}
-      />
+        element={!isLoggedIn ? <LoginPage /> : <Navigate to="/" />}
+      ></Route>
+
+      <Route path="/test" element={<TestPage />} />
 
       <Route
         path="*"
