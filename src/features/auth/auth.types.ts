@@ -1,4 +1,4 @@
-import { ApiResponse } from "../shared/shared.type";
+import { ApiResponse } from "../shared/shared.types";
 
 export interface Token {
   sub: string;

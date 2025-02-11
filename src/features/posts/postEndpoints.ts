@@ -4,8 +4,7 @@ const postEndpoints = {
   prevAndNext: (id: number) => `/api/posts/prev-and-next?postId=${id}`,
   delete: (id: number) => `/api/posts/${id}`,
   update: (id: number) => `/api/posts/${id}`,
-  olderPosts: (id: number) => `/api/posts?postId=${id}&load=older`,
-  newerPosts: (id: number) => `/api/posts?postId=${id}&load=newer`,
+  loadPosts: `/api/posts`,
   searchPosts: "/api/posts/search",
 };
 

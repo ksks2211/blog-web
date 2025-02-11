@@ -15,7 +15,6 @@ import {
 import LoadingPage from "../features/shared/pages/LoadingPage.tsx";
 import QueryErrorPage from "../features/shared/pages/QueryErrorPage.tsx";
 import PrivateRoutes from "./PrivateRoutes.tsx";
-import TestPage from "./TestPage.tsx";
 
 const AppRoutesGuard = () => {
   const { isLoggedIn } = useIsLoggedIn();
@@ -60,7 +59,12 @@ const AppRoutes = memo(({ isLoggedIn }: { isLoggedIn: boolean }) => {
         element={!isLoggedIn ? <LoginPage /> : <Navigate to="/" />}
       ></Route>
 
-      <Route path="/test" element={<TestPage />} />
+      <Route
+        path="/test"
+        element={
+          <div className="min-h-[300vh] pointer-events-none">idndiw</div>
+        }
+      />
 
       <Route
         path="*"

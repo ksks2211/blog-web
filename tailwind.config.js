@@ -37,7 +37,8 @@ export default {
       },
 
       fontFamily: {
-        "oswald" : ['Oswald', 'serif']
+        "oswald" : ['Oswald', 'serif'],
+        "fredoka" : ['fredoka','serif']
       }
 
     },

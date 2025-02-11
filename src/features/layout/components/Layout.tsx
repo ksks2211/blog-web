@@ -64,7 +64,7 @@ const L1Right: React.FC = () => {
 const L2Bottom: React.FC = () => {
   const { isLg } = useBreakpoints();
   return (
-    <div className="w-full h-full  flex-grow flex flex-row">
+    <div className="w-full h-full  flex-grow flex flex-row bg-base-200">
       <L3Left />
       {isLg && <Sidebar />}
     </div>
@@ -74,7 +74,7 @@ const L2Bottom: React.FC = () => {
 // L3Left : main(top) + footer(bottom)
 const L3Left: React.FC = () => {
   return (
-    <div className="w-full h-full flex-grow flex flex-col bg-green-200">
+    <div className="w-full h-full flex-grow flex flex-col">
       <Main />
       <Footer />
     </div>

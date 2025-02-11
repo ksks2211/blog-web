@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 const Main = memo(() => {
   return (
-    <main className="flex-grow w-full bg-orange-200">
+    <main className="flex-grow w-full">
       <Outlet />
     </main>
   );

@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { TargetedEvent } from "../../shared/shared.type";
+import { TargetedEvent } from "../../shared/shared.types";
 import { useManageDrawer } from "../useLayout";
 import { MenuItem } from "./Drawer";
 

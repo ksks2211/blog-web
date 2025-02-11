@@ -10,7 +10,7 @@ import LoginHeader from "./LoginHeader";
 
 const LoginLayout = () => {
   return (
-    <div className="w-screen h-screen overflow-auto flex flex-col bg-base-100">
+    <div className="h-screen flex flex-col bg-base-100">
       <LoginHeader />
 
       <main

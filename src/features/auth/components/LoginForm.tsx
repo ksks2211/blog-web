@@ -90,8 +90,9 @@ export default function LoginForm({ setLoginErrorMessage }: LoginFormProps) {
     if (email && email.length > 0) {
       setValue("email", email);
       setParams();
+      setFocus("password");
     }
-  }, [params, setParams, setValue]);
+  }, [params, setFocus, setParams, setValue]);
 
   return (
     <form
