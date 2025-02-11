@@ -2,8 +2,19 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { LoginResponse, LogoutResponse, ProfileResponse } from "./auth.types";
-import { getProfile, postLogin, postLogout } from "./authService";
+import {
+  LoginResponse,
+  LogoutResponse,
+  ProfileResponse,
+  SignupResponse,
+} from "./auth.types";
+import {
+  getOAuth2Login,
+  getProfile,
+  postLogin,
+  postLogout,
+  postSignUp,
+} from "./authService";
 import { setIsLoggedIn, setNickname } from "./authStateSlice";
 import {
   isValidToken,
@@ -11,6 +22,7 @@ import {
   setTokenToBrowser,
 } from "./authTokenService";
 import { LoginFormData } from "./components/LoginForm";
+import { SignUpFormData } from "./components/SignUpForm";
 
 export const useIsLoggedIn = () => {
   const isLoggedIn = useSelector(
@@ -94,6 +106,40 @@ export const useLoginMutation = ({
   });
 
   return { mutation };
+};
+
+export const useSignUpMutation = ({
+  setLoginErrorMessage,
+}: {
+  setLoginErrorMessage: (msg: string) => void;
+}) => {
+  const mutation = useMutation<SignupResponse, Error, SignUpFormData>({
+    mutationFn: postSignUp,
+    onError: (error) => {
+      setLoginErrorMessage(error.message);
+    },
+    onSuccess: (data) => {
+      console.log(data.data);
+      return data;
+    },
+  });
+
+  return { mutation };
+};
+
+export const useOAuth2LoginMutation = () => {
+  const { login } = useLogin();
+  const { logout } = useLogout();
+
+  return useMutation<LoginResponse, Error, URLSearchParams, unknown>({
+    retry: false,
+    mutationFn: getOAuth2Login,
+    onSuccess: (res) => {
+      const { token } = res.data;
+      login(token);
+    },
+    onError: logout,
+  });
 };
 
 export const useLogoutMutation = () => {

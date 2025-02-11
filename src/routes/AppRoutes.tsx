@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import GoogleOAuth2 from "../features/auth/components/GoogleOAuth2.tsx";
 import LoginPage from "../features/auth/pages/LoginPage.tsx";
 import {
   useChangeNickname,
@@ -44,6 +45,11 @@ const AppRoutes = memo(({ isLoggedIn }: { isLoggedIn: boolean }) => {
 
   return (
     <Routes>
+      <Route
+        path="/login/oauth2/*"
+        element={!isLoggedIn ? <GoogleOAuth2 /> : <Navigate to="/" />}
+      />
+
       <Route
         path="/login"
         element={!isLoggedIn ? <LoginPage /> : <Navigate to="/" />}

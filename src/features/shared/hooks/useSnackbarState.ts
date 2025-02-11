@@ -43,8 +43,12 @@ export function useSnackbarState({
   const displaySnackbar = useMemo(
     () =>
       throttle(
-        (message: string) =>
-          setSnackbarState({ open: true, message, severity }),
+        (message: string, otherSeverity?: SnackbarSeverity) =>
+          setSnackbarState({
+            open: true,
+            message,
+            severity: otherSeverity || severity,
+          }),
         1500
       ),
     [severity]

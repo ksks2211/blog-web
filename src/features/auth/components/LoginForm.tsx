@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 
 import { EnvelopeIcon, KeyIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
+import { useSearchParams } from "react-router-dom";
 import { z } from "zod";
 import googleLogo from "../../shared/assets/google.svg";
 import { useLoginMutation } from "../useAuth";
@@ -29,6 +30,7 @@ export default function LoginForm({ setLoginErrorMessage }: LoginFormProps) {
     clearErrors,
     getValues,
     setFocus,
+    setValue,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(schema),
@@ -36,6 +38,8 @@ export default function LoginForm({ setLoginErrorMessage }: LoginFormProps) {
   });
 
   const { mutation } = useLoginMutation({ setLoginErrorMessage });
+
+  const [params, setParams] = useSearchParams();
 
   useEffect(() => {
     if (errors.email || errors.password) {
@@ -79,6 +83,15 @@ export default function LoginForm({ setLoginErrorMessage }: LoginFormProps) {
   };
 
   const { isPending } = mutation;
+
+  useEffect(() => {
+    const email = params.get("email");
+
+    if (email && email.length > 0) {
+      setValue("email", email);
+      setParams();
+    }
+  }, [params, setParams, setValue]);
 
   return (
     <form

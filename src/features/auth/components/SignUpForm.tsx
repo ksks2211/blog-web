@@ -3,8 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import { HtmlHTMLAttributes, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { useLoginMutation } from "../useAuth";
+import { SnackbarSeverity } from "../../shared/hooks/useSnackbarState";
+import { useSignUpMutation } from "../useAuth";
 
 const schema = z.object({
   email: z.string().email("Check your email address"),
@@ -12,25 +14,31 @@ const schema = z.object({
   nickname: z.string().min(5, "Nickname must be at least 5 characters long"),
 });
 
-export type LoginFormData = z.infer<typeof schema>;
+export type SignUpFormData = z.infer<typeof schema>;
 
 interface LoginFormProps extends HtmlHTMLAttributes<HTMLDivElement> {
-  setLoginErrorMessage: (msg: string) => void;
+  setLoginMessage: (msg: string, severity?: SnackbarSeverity) => void;
 }
 
-export default function LoginForm({ setLoginErrorMessage }: LoginFormProps) {
+export default function RegisterNewUserForm({
+  setLoginMessage,
+}: LoginFormProps) {
   const {
     register,
     handleSubmit,
     reset,
     clearErrors,
     getValues,
+    setFocus,
     formState: { errors },
-  } = useForm<LoginFormData>({
+  } = useForm<SignUpFormData>({
     resolver: zodResolver(schema),
   });
 
-  const { mutation } = useLoginMutation({ setLoginErrorMessage });
+  const { mutation } = useSignUpMutation({
+    setLoginErrorMessage: setLoginMessage,
+  });
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (errors.email || errors.password) {
@@ -38,7 +46,7 @@ export default function LoginForm({ setLoginErrorMessage }: LoginFormProps) {
         errors.email?.message ||
         errors.password?.message ||
         "Invalid information";
-      setLoginErrorMessage(message);
+      setLoginMessage(message);
       clearErrors();
       reset(getValues());
     }
@@ -47,18 +55,28 @@ export default function LoginForm({ setLoginErrorMessage }: LoginFormProps) {
     clearErrors,
     errors.email,
     errors.password,
-    setLoginErrorMessage,
+    setLoginMessage,
     getValues,
   ]);
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (data: SignUpFormData) => {
     if (!mutation.isPending) {
       try {
-        await mutation.mutateAsync(data);
-      } catch (e) {
-        console.error(e);
+        const { data: responseBody } = await mutation.mutateAsync(data);
+
+        setLoginMessage("User Registered!", "success");
+
+        setTimeout(() => {
+          const email = responseBody.email;
+          navigate(`/login?email=${email}`);
+        }, 2500);
+      } catch {
         clearErrors();
-        reset();
+
+        setTimeout(() => {
+          setFocus("email");
+          reset(getValues());
+        }, 500);
       }
     }
   };

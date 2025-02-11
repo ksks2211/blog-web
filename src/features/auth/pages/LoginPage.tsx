@@ -1,10 +1,11 @@
 import clsx from "clsx";
-import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import logo from "../../shared/assets/logo.png";
 import SnackbarAlert from "../../shared/components/SnackbarAlert";
 import { useSnackbarState } from "../../shared/hooks/useSnackbarState";
 import LoginForm from "../components/LoginForm";
-import SigninForm from "../components/SigninForm";
+import SigninForm from "../components/SignUpForm";
 import LoginHeader from "./LoginHeader";
 
 const LoginLayout = () => {
@@ -35,6 +36,15 @@ const LoginLayout = () => {
 const LoginContent = () => {
   const { closeSnackbar, displaySnackbar, snackbarState } = useSnackbarState();
   const { pathname } = useLocation();
+  const [params, setParams] = useSearchParams();
+
+  useEffect(() => {
+    const message = params.get("error");
+    if (message) {
+      setParams();
+      displaySnackbar(message);
+    }
+  }, [displaySnackbar, params, setParams]);
 
   const isLoginPath = pathname === "/login";
 
@@ -54,7 +64,7 @@ const LoginContent = () => {
         {isLoginPath ? (
           <LoginForm setLoginErrorMessage={displaySnackbar} />
         ) : (
-          <SigninForm setLoginErrorMessage={displaySnackbar} />
+          <SigninForm setLoginMessage={displaySnackbar} />
         )}
       </div>
 

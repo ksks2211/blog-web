@@ -1,7 +1,12 @@
 import apiClient from "./client";
 
-export async function getRequest<ResBody>(endpoint: string) {
-  const { data } = await apiClient.get(endpoint);
+export async function getRequest<ResBody>(
+  endpoint: string,
+  params?: URLSearchParams
+) {
+  const { data } = await apiClient.get(endpoint, {
+    params,
+  });
   return data as ResBody;
 }
 
