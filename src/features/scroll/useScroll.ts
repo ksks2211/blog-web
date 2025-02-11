@@ -2,8 +2,9 @@ import { throttle } from "lodash-es";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { useLockBodyScroll, useScrollbarWidth } from "react-use";
+import { useLockBodyScroll } from "react-use";
 import { AppDispatch, RootState } from "../../app/store";
+import { getScrollbarWidth } from "../shared/utils/documentUtils";
 import { setScrollY } from "./scrollStateSlice";
 import { isScrollable } from "./scrollUtils";
 
@@ -51,7 +52,8 @@ export function useListenScrollY(wait = 200) {
 
 export const useEnhancedLockBodyScroll = (lock: boolean) => {
   useLockBodyScroll(lock);
-  const scrollbarWidth = useScrollbarWidth();
+
+  const scrollbarWidth = getScrollbarWidth();
 
   // Add right margin for scroll width
   useEffect(() => {

@@ -41,10 +41,11 @@ export default function RegisterNewUserForm({
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (errors.email || errors.password) {
+    if (errors.email || errors.password || errors.nickname) {
       const message =
         errors.email?.message ||
         errors.password?.message ||
+        errors.nickname?.message ||
         "Invalid information";
       setLoginMessage(message);
       clearErrors();
@@ -57,6 +58,7 @@ export default function RegisterNewUserForm({
     errors.password,
     setLoginMessage,
     getValues,
+    errors.nickname,
   ]);
 
   const onSubmit = async (data: SignUpFormData) => {

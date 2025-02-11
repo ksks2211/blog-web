@@ -30,7 +30,7 @@ const Layout: React.FC = () => {
   }, [closeDrawer, isLargeScreen, openDrawer]);
 
   return (
-    <div className="relative w-full min-h-screen bg-purple-600 flex flex-row">
+    <div className="relative w-full min-h-screen flex flex-row">
       {!isLargeScreen && (
         <Overlay
           active={isDrawerOpen}
@@ -46,8 +46,14 @@ const Layout: React.FC = () => {
 
 //  L1Right : Header(top) + L2Bottom
 const L1Right: React.FC = () => {
+  const { isLargeScreen } = useDeviceType();
   return (
-    <div className={clsx("w-full h-full min-h-screen flex-row relative")}>
+    <div
+      className={clsx(
+        "w-full min-h-screen flex-row relative",
+        isLargeScreen && "ml-64"
+      )}
+    >
       <Header />
       <L2Bottom />
     </div>
@@ -58,7 +64,7 @@ const L1Right: React.FC = () => {
 const L2Bottom: React.FC = () => {
   const { isLg } = useBreakpoints();
   return (
-    <div className="w-full h-full flex-grow bg-pink-500 flex flex-row">
+    <div className="w-full h-full  flex-grow flex flex-row">
       <L3Left />
       {isLg && <Sidebar />}
     </div>
@@ -68,7 +74,7 @@ const L2Bottom: React.FC = () => {
 // L3Left : main(top) + footer(bottom)
 const L3Left: React.FC = () => {
   return (
-    <div className="w-full h-full flex-grow flex flex-col bg-lime-500">
+    <div className="w-full h-full flex-grow flex flex-col bg-green-200">
       <Main />
       <Footer />
     </div>

@@ -19,10 +19,10 @@ apiClient.interceptors.response.use(
 
     if (isAxiosError(error)) {
       const status = error.status || 400;
-      const message = error.message;
+      let message = error.message;
 
-      if (error.response?.data) {
-        console.log(error.response.data);
+      if (error.response?.data.message) {
+        message = error.response.data.message;
       }
 
       throw new HttpError(message, status);
