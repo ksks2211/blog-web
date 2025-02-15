@@ -11,7 +11,7 @@ import { useSignUpMutation } from "../useAuth";
 const schema = z.object({
   email: z.string().email("Check your email address"),
   password: z.string().min(5, "Password must be at least 5 characters long"),
-  nickname: z.string().min(5, "Nickname must be at least 5 characters long"),
+  nickname: z.string().optional(),
 });
 
 export type SignUpFormData = z.infer<typeof schema>;
@@ -33,6 +33,11 @@ export default function RegisterNewUserForm({
     formState: { errors },
   } = useForm<SignUpFormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      email: "",
+      password: "",
+      nickname: undefined,
+    },
   });
 
   const { mutation } = useSignUpMutation({
@@ -71,7 +76,7 @@ export default function RegisterNewUserForm({
         setTimeout(() => {
           const email = responseBody.email;
           navigate(`/login?email=${email}`);
-        }, 2500);
+        }, 500);
       } catch {
         clearErrors();
 

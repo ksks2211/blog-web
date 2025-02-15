@@ -25,3 +25,22 @@ export default function QueryGuard<
 
   return <Component data={data} {...(rest as P)} />;
 }
+
+export function QueryGuardWithSkeleton<
+  D, // type of query result
+  E extends Error = Error,
+  P = AnyButDataProps // type of props other than data
+>({
+  query,
+  Component,
+  Skeleton,
+  ...rest
+}: QueryHandlerProps<D, E, P> & { Skeleton: React.FC }) {
+  const { isLoading, data, isError } = query;
+
+  if (isLoading) return <Skeleton />;
+  if (isError) return <QueryErrorPage />;
+  if (data === undefined) return <QueryErrorPage />;
+
+  return <Component data={data} {...(rest as P)} />;
+}

@@ -15,8 +15,9 @@ import {
   postLogout,
   postSignUp,
 } from "./authService";
-import { setIsLoggedIn, setNickname } from "./authStateSlice";
+import { setIsLoggedIn, setNickname, setUserId } from "./authStateSlice";
 import {
+  getUserId,
   isValidToken,
   removeTokenFromBrowser,
   setTokenToBrowser,
@@ -31,6 +32,11 @@ export const useIsLoggedIn = () => {
   return { isLoggedIn };
 };
 
+export const useUserId = () => {
+  const userId = useSelector((state: RootState) => state.authState.userId);
+  return { userId };
+};
+
 export const useUserInfo = () => {
   const nickname = useSelector((state: RootState) => state.authState.nickname);
   return { nickname };
@@ -39,11 +45,13 @@ export const useUserInfo = () => {
 // Check login state regularly
 export const useMonitorLoginState = (min = 5) => {
   const { logout } = useLogout();
+
   useEffect(() => {
     const timer = setInterval(() => {
       const valid = isValidToken();
       if (!valid) {
         logout();
+        alert("Login Session Expired");
       }
     }, min * 60 * 1000);
     return () => {
@@ -59,7 +67,10 @@ export const useLogin = () => {
   // Save token & change login state
   const login = (token: string) => {
     setTokenToBrowser(token);
+    const userId = getUserId(token);
+
     dispatch(setIsLoggedIn(true));
+    dispatch(setUserId(userId));
   };
 
   return { login };
@@ -69,8 +80,8 @@ export const useLogin = () => {
 export const useLogout = () => {
   const dispatch = useDispatch<AppDispatch>();
   const logout = () => {
-    dispatch(setIsLoggedIn(false));
     removeTokenFromBrowser();
+    dispatch(setIsLoggedIn(false));
   };
 
   return { logout };
@@ -159,7 +170,7 @@ export const useProfile = (enabled: boolean) => {
   return useQuery<ProfileResponse>({
     queryKey: ["profile"],
     queryFn: getProfile,
-    staleTime: Infinity,
+    retry: false,
     enabled,
   });
 };

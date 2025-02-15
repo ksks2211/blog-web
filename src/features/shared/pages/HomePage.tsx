@@ -1,7 +1,6 @@
 import clsx from "clsx";
-import { FaFolder, FaPen } from "react-icons/fa";
+import { FaFolder, FaPen, FaTag } from "react-icons/fa";
 import { FaFile } from "react-icons/fa6";
-import { MdOutlineSearch } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { TargetedEvent } from "../shared.types";
 
@@ -14,10 +13,10 @@ const menu = [
   },
   { title: "Posts", link: "/posts", Icon: FaFile, description: "Read Posts" },
   {
-    title: "Search",
-    link: "/posts/search",
-    Icon: MdOutlineSearch,
-    description: "Search & Explore Posts",
+    title: "Tags",
+    link: "/tags",
+    Icon: FaTag,
+    description: "Search & Explore Posts by Tag",
   },
   {
     title: "Category",
@@ -62,7 +61,7 @@ export default function HomePage() {
           )}
         >
           {menu.map((item) => (
-            <Card {...item} />
+            <Card {...item} key={item.link} />
           ))}
         </ul>
       </div>

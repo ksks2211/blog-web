@@ -1,14 +1,22 @@
 import { format, formatDistanceToNow, parseISO } from "date-fns";
 
 export function formatDate(date: string) {
-  const parsedDate = parseISO(date);
-  return format(parsedDate, "LLL d, yyyy");
+  try {
+    const parsedDate = parseISO(date);
+    return format(parsedDate, "LLL d, yyyy");
+  } catch {
+    return "Unknown";
+  }
 }
 
 export function formatDateFromNow(date: string) {
-  const parsedDate = parseISO(date);
-  const formattedDate = formatDistanceToNow(parsedDate);
-  return `${formattedDate} ago`;
+  try {
+    const parsedDate = parseISO(date);
+    const formattedDate = formatDistanceToNow(parsedDate);
+    return `${formattedDate} ago`;
+  } catch {
+    return "Unknown";
+  }
 }
 
 export function getCurrentDateInfo() {

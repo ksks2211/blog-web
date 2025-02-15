@@ -1,0 +1,14 @@
+li.task-list-item::marker{
+  content: none;
+  width: 0;
+  display: none;  
+}
+
+li.task-list-item{
+  margin-left: -18px;
+}
+
+li.task-list-item input{
+  
+  transform: translateX(-5px);
+}

@@ -10,7 +10,7 @@ const Overlay = ({
   return (
     <div
       className={clsx(
-        "fixed inset-0 bg-black bg-opacity-30 z-10",
+        "fixed inset-0 bg-black bg-opacity-30 z-20",
         active ? "pointer-events-auto" : "pointer-events-none",
         active ? "animate-fade-in" : "animate-fade-out",
         active && isScrollable ? "overflow-y-scroll" : "overflow-y-auto",

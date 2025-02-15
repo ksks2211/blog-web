@@ -6,7 +6,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 const apiClient = axios.create({
   baseURL: apiUrl,
-  timeout: 10000,
+  timeout: 5000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -15,8 +15,6 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.log(error);
-
     if (isAxiosError(error)) {
       const status = error.status || 400;
       let message = error.message;

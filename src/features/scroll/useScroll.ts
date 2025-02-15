@@ -1,7 +1,7 @@
 import { throttle } from "lodash-es";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { useLockBodyScroll } from "react-use";
 import { AppDispatch, RootState } from "../../app/store";
 import { getScrollbarWidth } from "../shared/utils/documentUtils";
@@ -13,8 +13,9 @@ const scrollToOptions = {
   behavior: "instant",
 } as const;
 
-export const useScrollTopReset = () => {
+export const useScrollTopResetByPathname = () => {
   const { pathname } = useLocation();
+
   useEffect(() => {
     // Disable the browser's default scroll restoration on back/forward navigation
     window.history.scrollRestoration = "manual";
@@ -25,6 +26,21 @@ export const useScrollTopReset = () => {
       window.history.scrollRestoration = "auto";
     };
   }, [pathname]);
+};
+
+export const useScrollTopResetByParams = () => {
+  const [params] = useSearchParams();
+
+  useEffect(() => {
+    // Disable the browser's default scroll restoration on back/forward navigation
+    window.history.scrollRestoration = "manual";
+    window.scrollTo(scrollToOptions);
+
+    // Re-enable scroll restoration when the component is unmounted
+    return () => {
+      window.history.scrollRestoration = "auto";
+    };
+  }, [params]);
 };
 
 export function useScrollY() {

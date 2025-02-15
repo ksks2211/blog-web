@@ -74,10 +74,11 @@ const Header = memo(() => {
   return (
     <header
       className={clsx(
-        "sticky top-0 w-full bg-base-200/50 glass min-h-14 flex-shrink-0 flex-grow-0 transition-transform duration-300 ease-out",
+        "sticky top-0 w-full min-h-14 flex-shrink-0 flex-grow-0 transition-transform duration-300 ease-out",
         "flex justify-center items-center relative",
         !isHeaderVisible && "-translate-y-14",
-        isLargeScreen && "pr-64"
+        isLargeScreen && "pr-64",
+        "bg-base-200/75 backdrop-blur-sm z-10 shadow-md"
       )}
     >
       {!isLargeScreen && (
@@ -85,11 +86,11 @@ const Header = memo(() => {
           className="absolute left-0 ml-5 top-0 bottom-0"
           onClick={toggleDrawer}
         >
-          <Bars3Icon className="size-8 p-1 hover:bg-primary/10 rounded-full" />
+          <Bars3Icon className="size-8 p-1 hover:bg-sky-700/10 rounded-full" />
         </button>
       )}
 
-      <h1 className="font-fredoka font-extrabold text-2xl text-orange-600">
+      <h1 className="font-oswald font-extrabold text-2xl text-sky-700 select-none">
         {title}
       </h1>
 
@@ -102,7 +103,7 @@ const Header = memo(() => {
         <UserCircleIcon
           tabIndex={0}
           role="button"
-          className="size-8 p-1 hover:bg-primary/10 rounded-full"
+          className="size-8 p-1 hover:bg-sky-700/10 rounded-full"
         />
 
         <div
@@ -114,7 +115,7 @@ const Header = memo(() => {
           <div className="w-full divider divider-neutral opacity-25 my-1"></div>
 
           <div
-            className="w-full cursor-pointer text-center hover:bg-base-300 p-2 rounded"
+            className="w-full cursor-pointer text-center hover:bg-base-200 p-2 rounded"
             onClick={handleLogoutBtnClick}
           >
             <span className="relative ">

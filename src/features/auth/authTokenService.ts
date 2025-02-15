@@ -37,3 +37,23 @@ export const isValidToken = () => {
   }
   return false;
 };
+
+export const getUserId = (token: string | null) => {
+  if (token === null) return undefined;
+
+  try {
+    // If you want to check expiration
+    const decoded = jwtDecode<Token>(token);
+    if (decoded.exp && decoded.exp * 1000 < Date.now()) {
+      // Token is expired
+      removeTokenFromBrowser();
+      return undefined;
+    }
+    // Valid Token
+    return decoded.sub;
+  } catch (error) {
+    console.error(error);
+    removeTokenFromBrowser();
+    return undefined;
+  }
+};

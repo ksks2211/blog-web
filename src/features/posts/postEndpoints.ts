@@ -6,6 +6,9 @@ const postEndpoints = {
   update: (id: number) => `/api/posts/${id}`,
   loadPosts: `/api/posts`,
   searchPosts: "/api/posts/search",
+  myPosts: (page = 1) => `/api/posts/search?mineOnly=true&page=${page}`,
+  categorizedPosts: (categoryId: number, page: number) =>
+    `/api/posts/categories/${categoryId}?page=${page}`,
 };
 
 export default postEndpoints;

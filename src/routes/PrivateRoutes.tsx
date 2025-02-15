@@ -1,16 +1,15 @@
+import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useMonitorLoginState } from "../features/auth/useAuth";
-import CategoryPage from "../features/categories/CategoryPage";
+import CategoryListPage from "../features/categories/pages/CategoryListPage";
 import Layout from "../features/layout/components/Layout";
-import PostListPage from "../features/posts/pages/PostListPage";
-import PostCreatePage from "../features/posts/PostCreatePage";
-import PostMinePage from "../features/posts/PostMinePage";
-import PostSearchPage from "../features/posts/PostSearchPage";
+import PostSearchPage from "../features/posts/pages/PostSearchPage";
 import SuspenseLoader from "../features/shared/components/SuspenseLoader";
 import TestComponent from "../features/shared/components/TestComponent";
-import TestErrorComponent from "../features/shared/components/TestErrorComponent";
 import HomePage from "../features/shared/pages/HomePage";
 import NotFoundPage from "../features/shared/pages/NotFoundPage";
+
+const PostRoutes = lazy(() => import("./PostRoutes.tsx"));
 
 const PrivateRoutes = () => {
   useMonitorLoginState();
@@ -19,22 +18,19 @@ const PrivateRoutes = () => {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
-        <Route path="/error" element={<TestErrorComponent />} />
         <Route path="/test" element={<TestComponent />} />
 
-        {/* Posts */}
-        <Route path="/posts" element={<PostListPage />} />
-        <Route path="/posts/create" element={<PostCreatePage />} />
-        <Route path="/posts/mine" element={<PostMinePage />} />
-        <Route path="/posts/search" element={<PostSearchPage />} />
+        <Route
+          path="/posts/*"
+          element={<SuspenseLoader children={<PostRoutes />} />}
+        />
 
-        <Route path="/categories" element={<CategoryPage />} />
+        <Route path="/tags" element={<PostSearchPage />} />
+
+        <Route path="/categories" element={<CategoryListPage />} />
       </Route>
 
-      <Route
-        path="*"
-        element={<SuspenseLoader children={<NotFoundPage />} />}
-      />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

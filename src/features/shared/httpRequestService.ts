@@ -22,3 +22,11 @@ export async function postRequest<ReqBody = void, ResBody = void>(
   const { data } = await apiClient.post(endpoint, reqBody);
   return data as ResBody;
 }
+
+export async function putRequest<ReqBody = void, ResBody = void>(
+  endpoint: string,
+  reqBody?: ReqBody
+) {
+  const { data } = await apiClient.put(endpoint, reqBody);
+  return data as ResBody;
+}

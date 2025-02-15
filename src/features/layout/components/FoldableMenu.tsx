@@ -37,7 +37,8 @@ export default function FoldableMenu({ menu }: FoldableMenuProps) {
   };
 
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(true);
-  const isActive = pathname === link;
+
+  const isActive = link === "/" ? pathname === link : pathname.startsWith(link);
 
   const toggleSubmenu = () => {
     setIsSubmenuOpen((prev) => !prev);
@@ -45,13 +46,10 @@ export default function FoldableMenu({ menu }: FoldableMenuProps) {
 
   return (
     <div className="w-full relative">
-      <div
-        aria-label="root menu"
-        className="h-12 flex flex-row z-30 bg-base-100"
-      >
+      <div aria-label="root menu" className="h-12 flex flex-row z-30">
         <div
           className={clsx(
-            "h-full flex-grow flex items-center  font-extrabold text-xl cursor-pointer hover:underline hover:text-primary/90 transition bg-base-100"
+            "h-full flex-grow flex items-center  font-extrabold text-xl cursor-pointer hover:underline hover:text-sky-800 transition"
           )}
           onClick={handleLink}
           data-link={link}
@@ -59,7 +57,7 @@ export default function FoldableMenu({ menu }: FoldableMenuProps) {
           <span
             className={clsx(
               "border-l-4 pl-3 transition",
-              isActive ? "border-primary/50" : "border-transparent"
+              isActive ? "border-sky-700" : "border-transparent"
             )}
           >
             {title}
@@ -71,9 +69,9 @@ export default function FoldableMenu({ menu }: FoldableMenuProps) {
             onClick={toggleSubmenu}
           >
             {isSubmenuOpen ? (
-              <ChevronDownIcon className="size-5 group-hover:text-primary m-1" />
+              <ChevronDownIcon className="size-6 group-hover:text-sky-700 m-1" />
             ) : (
-              <ChevronUpIcon className="size-5 group-hover:text-primary m-1" />
+              <ChevronUpIcon className="size-6 group-hover:text-sky-700 m-1" />
             )}
           </div>
         )}
@@ -91,8 +89,8 @@ export default function FoldableMenu({ menu }: FoldableMenuProps) {
               >
                 <button
                   className={clsx(
-                    "pl-4 w-full h-full group-hover:text-primary group-hover:bg-neutral/5 transition text-left rounded items-center",
-                    pathname === sub.link && "text-primary"
+                    "pl-4 w-full h-full group-hover:bg-sky-700/10 transition text-left rounded items-center",
+                    pathname === sub.link && "text-sky-700"
                   )}
                 >
                   {sub.title}
