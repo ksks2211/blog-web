@@ -78,7 +78,7 @@ const Header = memo(() => {
         "flex justify-center items-center relative",
         !isHeaderVisible && "-translate-y-14",
         isLargeScreen && "pr-64",
-        "bg-base-200/75 backdrop-blur-sm z-10 shadow-md"
+        "bg-stone-200/50 backdrop-blur-sm z-10 shadow-md lg:shadow-none"
       )}
     >
       {!isLargeScreen && (
@@ -86,11 +86,11 @@ const Header = memo(() => {
           className="absolute left-0 ml-5 top-0 bottom-0"
           onClick={toggleDrawer}
         >
-          <Bars3Icon className="size-8 p-1 hover:bg-sky-700/10 rounded-full" />
+          <Bars3Icon className="size-8 p-1 hover:bg-orange-500/10 rounded-full" />
         </button>
       )}
 
-      <h1 className="font-oswald font-extrabold text-2xl text-sky-700 select-none">
+      <h1 className="font-lilita font-extrabold text-2xl text-orange-500 select-none">
         {title}
       </h1>
 
@@ -103,7 +103,7 @@ const Header = memo(() => {
         <UserCircleIcon
           tabIndex={0}
           role="button"
-          className="size-8 p-1 hover:bg-sky-700/10 rounded-full"
+          className="size-8 p-1 hover:bg-orange-500/10 rounded-full"
         />
 
         <div
@@ -125,9 +125,6 @@ const Header = memo(() => {
           </div>
         </div>
       </div>
-
-      {/* <h1 className="bg-purple-500">title User({nickname})</h1> */}
-      {/* <button onClick={handleLogoutBtnClick}>logout</button> */}
     </header>
   );
 });

@@ -42,7 +42,7 @@ export default function CategoryListPage() {
           placeholder="Add new category"
           value={category}
           onChange={handleCategoryChange}
-          className="input input-sm input-success input-bordered w-full mx-5"
+          className="input input-sm input-info input-bordered w-full mx-5"
           autoFocus
         />
         <button type="submit" tabIndex={-1} className="flex-shrink-0 mr-5">

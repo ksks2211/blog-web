@@ -127,7 +127,7 @@ export default function PostSearchPage() {
           <span className="label-text mr-3 font-bold">{checkboxLabel}</span>
           <input
             type="checkbox"
-            className="toggle toggle-success"
+            className="toggle toggle-info"
             checked={mineOnly}
             onChange={handleMineOnlyCheckbox}
           />
@@ -142,7 +142,7 @@ export default function PostSearchPage() {
           placeholder="Add Search Tag"
           value={tag}
           onChange={handleTagInput}
-          className="input input-sm input-success input-bordered w-full mx-5"
+          className="input input-sm input-info input-bordered w-full mx-5"
           autoFocus
         />
         <button type="submit" tabIndex={-1} className="flex-shrink-0 mr-5">

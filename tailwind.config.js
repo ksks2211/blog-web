@@ -37,7 +37,8 @@ export default {
       },
 
       fontFamily: {
-        "oswald" : ['Oswald', 'serif']        
+        "lilita" : ['Lilita One', 'serif'],
+        "rubik" : ['Rubik', 'serif'],
       }
 
     },

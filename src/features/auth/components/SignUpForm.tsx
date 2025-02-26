@@ -11,7 +11,7 @@ import { useSignUpMutation } from "../useAuth";
 const schema = z.object({
   email: z.string().email("Check your email address"),
   password: z.string().min(5, "Password must be at least 5 characters long"),
-  nickname: z.string().optional(),
+  nickname: z.string().min(5, "Nickname must be at least 5 characters long"),
 });
 
 export type SignUpFormData = z.infer<typeof schema>;
@@ -36,7 +36,7 @@ export default function RegisterNewUserForm({
     defaultValues: {
       email: "",
       password: "",
-      nickname: undefined,
+      nickname: "",
     },
   });
 
@@ -120,7 +120,7 @@ export default function RegisterNewUserForm({
         <UserIcon className="flex-shrink-0 h-4 w-4 opacity-70 group-focus-within:text-success" />
         <input
           type="nickname"
-          placeholder="Nickname"
+          placeholder="Nickname*"
           className="w-full"
           required={false}
           {...register("nickname")}

@@ -46,7 +46,7 @@ function CategoryListPage({ data }: { data: CategoryListData }) {
   const isEmpty = categories.length === 0;
 
   return (
-    <div className="mx-auto w-11/12">
+    <div className="mx-auto w-11/12 lg:w-9/12">
       {isEmpty ? (
         <div className="w-full min-h-[20vh] flex items-center justify-center text-teal-700">
           No results
@@ -63,8 +63,8 @@ function CategoryListPage({ data }: { data: CategoryListData }) {
               <div className="flex flex-row items-center gap-2 w-full">
                 <h2
                   className={clsx(
-                    "flex-grow-0 max-w-56 select-none  overflow-clip text-ellipsis break-words whitespace-nowrap ",
-                    "group-hover:underline cursor-pointer"
+                    "flex-grow max-w-56 select-none  overflow-clip text-ellipsis break-words whitespace-nowrap",
+                    "hover:underline cursor-pointer"
                   )}
                   data-id={category.id}
                   onClick={
@@ -74,7 +74,7 @@ function CategoryListPage({ data }: { data: CategoryListData }) {
                   {category.categoryName}
                 </h2>
               </div>
-              <span className="text-sm text-base-content/50">
+              <span className="text-sm text-base-content/50 flex-shrink-0">
                 ({category.postCount})
               </span>
             </li>

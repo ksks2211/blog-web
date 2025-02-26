@@ -49,15 +49,15 @@ export default function FoldableMenu({ menu }: FoldableMenuProps) {
       <div aria-label="root menu" className="h-12 flex flex-row z-30">
         <div
           className={clsx(
-            "h-full flex-grow flex items-center  font-extrabold text-xl cursor-pointer hover:underline hover:text-sky-800 transition"
+            "h-full flex-grow flex items-center  font-extrabold text-xl cursor-pointer hover:underline hover:text-orange-600"
           )}
           onClick={handleLink}
           data-link={link}
         >
           <span
             className={clsx(
-              "border-l-4 pl-3 transition",
-              isActive ? "border-sky-700" : "border-transparent"
+              "border-l-4 pl-3",
+              isActive ? "border-orange-500" : "border-transparent"
             )}
           >
             {title}
@@ -89,8 +89,8 @@ export default function FoldableMenu({ menu }: FoldableMenuProps) {
               >
                 <button
                   className={clsx(
-                    "pl-4 w-full h-full group-hover:bg-sky-700/10 transition text-left rounded items-center",
-                    pathname === sub.link && "text-sky-700"
+                    "pl-4 w-full h-full group-hover:bg-orange-500/5 transition text-left rounded items-center",
+                    pathname === sub.link && "text-orange-600"
                   )}
                 >
                   {sub.title}

@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import { Category } from "../../categories/category.types";
 import { useGetCategory } from "../../categories/useCategory";
 import QueryGuard, {
@@ -37,6 +38,10 @@ export default function CategorizedPostListGuard() {
 
   const query1 = useGetCategory(id);
   const query2 = useCategorizedPosts(id, page);
+
+  if (query1.isError || query2.isError) {
+    return <Navigate to="/posts/mine" />;
+  }
 
   return (
     <>

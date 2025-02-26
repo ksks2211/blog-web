@@ -129,9 +129,8 @@ export const useSignUpMutation = ({
     onError: (error) => {
       setLoginErrorMessage(error.message);
     },
-    onSuccess: (data) => {
-      console.log(data.data);
-      return data;
+    onSuccess: (res) => {
+      return res;
     },
   });
 

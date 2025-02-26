@@ -155,8 +155,6 @@ export default function PostCreateForm({
     } catch (e) {
       console.log(e);
     }
-
-    console.log(getValues());
   };
 
   const removeTag = (idx: number) => {
