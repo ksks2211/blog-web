@@ -1,0 +1,42 @@
+name: Deploy to S3
+
+on:
+  push:
+    branches:
+      - main  # or any other branch
+    tags:
+      - 'v*'  # This is to trigger deployment on version tags like v1.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'  
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        env: 
+          VITE_API_ADDR: ${{ secrets.VITE_API_ADDR }}
+          VITE_GISCUS_REPO_ID: ${{ secrets.VITE_GISCUS_REPO_ID }}
+          VITE_GISCUS_CATEGORY_ID: ${{ secrets.VITE_GISCUS_CATEGORY_ID }}
+        run: npm run build
+
+      - name: Deploy to S3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --follow-symlinks --delete  # --acl public-read 
+        env:
+          AWS_S3_BUCKET: ${{ secrets.S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}  # Using the AWS region secret
+          SOURCE_DIR: 'dist'
+
