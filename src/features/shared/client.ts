@@ -4,6 +4,8 @@ import HttpError from "./HttpError";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
+console.log("API URL: ", apiUrl);
+
 const apiClient = axios.create({
   baseURL: apiUrl,
   timeout: 5000,
