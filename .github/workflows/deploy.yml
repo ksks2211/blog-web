@@ -24,7 +24,7 @@ jobs:
 
       - name: Build
         env: 
-          VITE_API_ADDR: ${{ secrets.VITE_API_ADDR }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
           VITE_GISCUS_REPO_ID: ${{ secrets.VITE_GISCUS_REPO_ID }}
           VITE_GISCUS_CATEGORY_ID: ${{ secrets.VITE_GISCUS_CATEGORY_ID }}
         run: npm run build
